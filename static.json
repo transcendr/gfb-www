@@ -1,0 +1,14 @@
+{
+    "root": "public/",
+    "headers": {
+        "/**.js": {
+        "Cache-Control": "public, max-age=3153600, must-revalidate"
+        }
+    },
+    "https_only": true,
+    "redirects": {
+        "/go/": {
+            "url": "${GO_REDIRECT_URL}"
+        }
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "name": "gatsby-start",
+    "description": "Example Gatsby/Contentful CircleCI to Heroku",
+    "version": "1.0.0",
+    "author": "Bryan McConnahea <bryan@iocharged.com>",
+    "dependencies": {
+        "serve-static": "^1.13.2",
+        "express": "^4.16.3",
+        "express-http-to-https": "^1.1.4"
+    },
+    "keywords": [],
+    "license": "MIT",
+    "scripts": {
+        "start": "node serve-static.js",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "heroku-postbuild": "ls -a && cat static.json"
+    },
+    "devDependencies": {
+        "prettier": "^1.14.2"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/transcendr/gatsby-start"
+    }
+}
