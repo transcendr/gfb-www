@@ -1,6 +1,6 @@
 {
-  "name": "gatsby-start",
-  "description": "Example Gatsby/Contentful CircleCI to Heroku",
+  "name": "gatsby-facebook",
+  "description": "Gatsby Facebook Frontend Static Site",
   "version": "1.0.0",
   "author": "Bryan McConnahea <bryan@iocharged.com>",
   "dependencies": {
