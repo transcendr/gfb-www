@@ -1,16 +1,8 @@
 module.exports = {
   siteMetadata: {
-    title: 'Gatsby Default Starter',
+    title: 'Gatsby FB Manager',
   },
   plugins: [
-    {
-      resolve: `gatsby-source-contentful`,
-      options: {
-        spaceId: '67jsh0m93kts',
-        accessToken:
-          'd967421986af9d85c4c0570cef07b930ac9d4ebfd83643676f929fe55c36e6e6',
-      },
-    },
     {
       resolve: 'gatsby-source-fbads',
       options: {

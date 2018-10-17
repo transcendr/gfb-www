@@ -21,7 +21,7 @@ const styles = {
 class FacebookAd extends Component {
   render() {
     const { title, body, image_url, creative_id } = this.props.data.facebookAds
-    console.log('#############cid', this.props.data.facebookAds, creative_id)
+    console.log('Generating Ad Page:', creative_id)
     return (
       <Layout node={this.props.data.facebookAds}>
         {/*<h1>{title}</h1>*/}

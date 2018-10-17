@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "author": "Bryan McConnahea <bryan@iocharged.com>",
   "dependencies": {
-    "gatsby": "^2.0.0",
+    "gatsby": "^2.0.25",
     "gatsby-plugin-manifest": "^2.0.2",
     "gatsby-plugin-offline": "^2.0.5",
     "gatsby-plugin-page-transitions": "^1.0.7",
