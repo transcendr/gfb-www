@@ -32,7 +32,7 @@ exports.sourceNodes = (
   delete configOptions.plugins
 
   const apiOptions = queryString.stringify(configOptions)
-  const apiUrl = `https://three-ear.glitch.me/?${apiOptions}`
+  const apiUrl = `https://gfb-node.herokuapp.com/A203003943948?${apiOptions}`
 
   return (
     // Fetch a response from the apiUrl
