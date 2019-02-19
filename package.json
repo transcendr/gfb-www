@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "author": "Bryan McConnahea <bryan@iocharged.com>",
   "dependencies": {
+    "bootstrap": "4.2.1",
     "gatsby": "^2.0.25",
     "gatsby-plugin-manifest": "^2.0.2",
     "gatsby-plugin-offline": "^2.0.5",
@@ -12,6 +13,7 @@
     "gatsby-source-contentful": "2.0.1",
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
+    "react-facebook-login": "^4.1.1",
     "react-helmet": "^5.2.0"
   },
   "keywords": [],
