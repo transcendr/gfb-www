@@ -61,7 +61,12 @@ exports.sourceNodes = async (
 
   const fetchAds = async after => {
     const body = {
-      query: `query {adcreatives(limit: 25, after: "${after}") {results {id,title,body,image_url},hasMore,after}}`,
+      query:
+        'query GetAdCreatives($limit: Int, $after: String) {adcreatives(limit: $limit, after: $after) {results {id,title,body,image_url},hasMore,after}}',
+      variables: {
+        limit: 25,
+        after: after,
+      },
     }
     const rawResponse = await fetch(apiUrl, {
       method: 'POST',
