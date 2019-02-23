@@ -79,13 +79,15 @@ class DashboardPage extends Component {
     }
     const apiUrl = `${this.apiBaseURL}/${path}`
 
-    if (!fetch) return
-
-    const rawResponse = await fetch(apiUrl, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(body),
-    })
+    try {
+      const rawResponse = await fetch(apiUrl, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(body),
+      })
+    } catch (e) {
+      console.log('## ', 'Component Mount Error', e.message)
+    }
 
     return await rawResponse.json()
   }
