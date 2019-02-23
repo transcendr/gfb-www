@@ -67,6 +67,7 @@ class DashboardPage extends Component {
   }
 
   async apiRequest(path, query, authToken) {
+    let rawResponse
     const body = {
       query,
     }
@@ -80,16 +81,15 @@ class DashboardPage extends Component {
     const apiUrl = `${this.apiBaseURL}/${path}`
 
     try {
-      const rawResponse = await fetch(apiUrl, {
+      rawResponse = await fetch(apiUrl, {
         method: 'POST',
         headers,
         body: JSON.stringify(body),
       })
+      return await rawResponse.json()
     } catch (e) {
       console.log('## ', 'Component Mount Error', e.message)
     }
-
-    return await rawResponse.json()
   }
 
   parseAuthToken() {
