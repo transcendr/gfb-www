@@ -78,6 +78,7 @@ class DashboardPage extends Component {
       headers['authorization'] = this.apiAuthToken
     }
     const apiUrl = `${this.apiBaseURL}/${path}`
+
     if (!fetch) return
 
     const rawResponse = await fetch(apiUrl, {
