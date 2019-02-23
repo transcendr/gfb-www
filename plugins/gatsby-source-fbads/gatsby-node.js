@@ -5,6 +5,8 @@ exports.sourceNodes = async (
   { actions, createNodeId, createContentDigest },
   configOptions
 ) => {
+  let cycles = 0
+  let complete = { more: true }
   let totalProcessed = 0
   const { createNode } = actions
 
@@ -87,6 +89,7 @@ exports.sourceNodes = async (
   let countGenerated = 0
 
   const processAPIRequest = async after => {
+    cycles++
     const response = await fetchAds(after)
     let data = response.data && response.data.adcreatives
     const numResults = data && data.results ? data.results.length : 0
@@ -96,7 +99,7 @@ exports.sourceNodes = async (
       console.log(
         `\n--------------------------------\nCOMPLETE: All ${countGenerated} Ads Generated to Pages\n`
       )
-      return
+      return { more: false }
     }
 
     countGenerated += data.results.length
@@ -109,11 +112,20 @@ exports.sourceNodes = async (
       createNode(nodeData)
     })
 
-    // Run recursively until no 'after' cursor is present
     if (data.after) {
-      processAPIRequest(data.after)
+      return {
+        more: true,
+        after: data.after,
+      }
+    } else {
+      return {
+        more: false,
+      }
     }
   }
 
-  processAPIRequest()
+  while (complete.more) {
+    console.log('\n\nCompleted Cycles', cycles, '\n\n')
+    complete = await processAPIRequest(complete.after)
+  }
 }
