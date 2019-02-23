@@ -56,7 +56,8 @@ exports.sourceNodes = async (
 
   const apiOptions = queryString.stringify(configOptions)
 
-  const apiUrl = `https://jn82y8mrx5.sse.codesandbox.io/build`
+  // const apiUrl = `https://jn82y8mrx5.sse.codesandbox.io/build`
+  const apiUrl = `https://gfb-apollo.herokuapp.com/build`
 
   const fetchAds = async after => {
     const body = {

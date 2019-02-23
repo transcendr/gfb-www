@@ -23,7 +23,8 @@ class DashboardPage extends Component {
       formValid: true,
     }
     this.debug = true
-    this.apiBaseURL = 'https://jn82y8mrx5.sse.codesandbox.io'
+    // this.apiBaseURL = 'https://jn82y8mrx5.sse.codesandbox.io'
+    this.apiBaseURL = 'https://gfb-apollo.herokuapp.com'
     this.apiAuthToken = ''
     this.apiRequestKey = 'client'
     this.settings = {
@@ -125,6 +126,15 @@ class DashboardPage extends Component {
     response.data && this.setState({ appId: response.data.appId })
   }
 
+  triggerBuild = async () => {
+    const query = `query {triggerBuild}`
+    const response = await this.apiRequest(this.apiRequestKey, query)
+    this.handleApiError(response, true, 'triggerBuild')
+    alert(
+      'A new build has been successfully triggered.  Please check Netlify for deploy progress and details.'
+    )
+  }
+
   checkUser = async () => {
     const { id } = this.state.authData
     const query = `mutation{isUser(fbAccountId: "${id}") {exists ready token settings{adAccountId}}}`
@@ -217,7 +227,7 @@ class DashboardPage extends Component {
     } else {
       // Upon success, show message
       if (showMessage !== false) {
-        const success = { saveSuccess: 'Settings saved successfuly.' }
+        const success = { saveSuccess: 'Settings saved successfully.' }
         this.setState({ formValid: success })
         setTimeout(() => this.setState({ formValid: {} }), 3000)
       }
@@ -285,54 +295,74 @@ class DashboardPage extends Component {
 
         <Row>
           <Col>
-            <Form>
-              <Form.Group controlId="settings.apiKey">
-                <Form.Label>API Key</Form.Label>
-                <Form.Control
-                  defaultValue={apiKey}
-                  onChange={e => this.handleFormChange(e)}
-                  type="text"
-                  placeholder="Enter a API key"
-                />
-              </Form.Group>
-              <Form.Group controlId="settings.adAccountId">
-                <Form.Label>Ad Account</Form.Label>
-                <Form.Control
-                  as="select"
-                  value={settings.adAccountId || ''}
-                  onChange={e => this.handleFormChange(e)}
+            <Row>
+              <Col>
+                <Form>
+                  <Form.Group controlId="settings.apiKey">
+                    <Form.Label>API Key</Form.Label>
+                    <Form.Control
+                      defaultValue={apiKey}
+                      onChange={e => this.handleFormChange(e)}
+                      type="text"
+                      placeholder="Enter a API key"
+                    />
+                  </Form.Group>
+                  <Form.Group controlId="settings.adAccountId">
+                    <Form.Label>Ad Account</Form.Label>
+                    <Form.Control
+                      as="select"
+                      value={settings.adAccountId || ''}
+                      onChange={e => this.handleFormChange(e)}
+                    >
+                      {adAccounts.map((x, index) => (
+                        <option value={x.id} key={index}>
+                          {x.id}
+                        </option>
+                      ))}
+                    </Form.Control>
+                  </Form.Group>
+                </Form>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Alert
+                  defaultShow={false}
+                  show={!!formValid.error}
+                  variant="danger"
                 >
-                  {adAccounts.map((x, index) => (
-                    <option value={x.id} key={index}>
-                      {x.id}
-                    </option>
-                  ))}
-                </Form.Control>
-              </Form.Group>
-            </Form>
+                  {formValid.error}
+                </Alert>
+                <Alert
+                  defaultShow={false}
+                  show={!!formValid.saveSuccess}
+                  variant="success"
+                >
+                  {formValid.saveSuccess}
+                </Alert>
+                <Button
+                  disabled={!!formValid.error ? 'disabled' : ''}
+                  onClick={() => this.updateUser()}
+                >
+                  Save
+                </Button>
+              </Col>
+            </Row>
           </Col>
-        </Row>
-        <Row>
           <Col>
-            <Alert
-              defaultShow={false}
-              show={!!formValid.error}
-              variant="danger"
-            >
-              {formValid.error}
-            </Alert>
-            <Alert
-              defaultShow={false}
-              show={!!formValid.saveSuccess}
-              variant="success"
-            >
-              {formValid.saveSuccess}
-            </Alert>
-            <Button
-              disabled={!!formValid.error ? 'disabled' : ''}
-              onClick={() => this.updateUser()}
-            >
-              Save
+            <h2>Trigger Build</h2>
+            <small style={{ paddingBottom: '20px', display: 'block' }}>
+              Clicking the button below will trigger a full re-build of the
+              Gatsby static site. Be sure to have properly set the
+              `BUILD_HOOK_URL` env variable within Heroku. Check deployment
+              progress on{' '}
+              <a href="https://app.netlify.com/" target="_blank">
+                Netlify
+              </a>
+              .
+            </small>
+            <Button onClick={e => this.triggerBuild()} variant="info" block>
+              Trigger New Build
             </Button>
           </Col>
         </Row>
