@@ -7,7 +7,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
     resolve(
       graphql(`
         {
-          allFacebookAds(limit: 1000) {
+          allFacebookAds(limit: 3000) {
             edges {
               node {
                 id
@@ -24,15 +24,16 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
           console.log('SUCCESS', result)
         }
 
-        result.data.allFacebookAds.edges.forEach(edge => {
-          createPage({
-            path: edge.node.slug,
-            component: FBAdPageTemplate,
-            context: {
-              slug: edge.node.slug,
-            },
+        result.data &&
+          result.data.allFacebookAds.edges.forEach(edge => {
+            createPage({
+              path: edge.node.slug,
+              component: FBAdPageTemplate,
+              context: {
+                slug: edge.node.slug,
+              },
+            })
           })
-        })
         return
       })
     )

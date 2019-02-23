@@ -1,7 +1,7 @@
 const fetch = require('node-fetch')
 const queryString = require('query-string')
 
-exports.sourceNodes = (
+exports.sourceNodes = async (
   { actions, createNodeId, createContentDigest },
   configOptions
 ) => {
@@ -45,6 +45,10 @@ exports.sourceNodes = (
     return nodeData
   }
 
+  // Generate at least one node
+  const sampleNodeData = processAdNode(sampleData.data.adcreatives.results[0])
+  createNode(sampleNodeData)
+
   // Gatsby adds a configOption that's not needed for this plugin, delete it
   delete configOptions.plugins
 
@@ -85,16 +89,14 @@ exports.sourceNodes = (
   const processAPIRequest = async after => {
     const response = await fetchAds(after)
     let data = response.data && response.data.adcreatives
-    const numResults = data.results.length
+    const numResults = data && data.results ? data.results.length : 0
 
-    if ((!data && totalProcessed > 0) || numResults < 25) {
+    if (numResults < 25) {
       countGenerated += numResults
       console.log(
         `\n--------------------------------\nCOMPLETE: All ${countGenerated} Ads Generated to Pages\n`
       )
       return
-    } else if (!data && totalProcessed === 0) {
-      data = sampleData.data.adcreatives
     }
 
     countGenerated += data.results.length
@@ -113,5 +115,5 @@ exports.sourceNodes = (
     }
   }
 
-  return processAPIRequest()
+  processAPIRequest()
 }

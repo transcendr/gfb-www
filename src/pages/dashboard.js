@@ -78,6 +78,8 @@ class DashboardPage extends Component {
       headers['authorization'] = this.apiAuthToken
     }
     const apiUrl = `${this.apiBaseURL}/${path}`
+    if (!fetch) return
+
     const rawResponse = await fetch(apiUrl, {
       method: 'POST',
       headers,
@@ -138,7 +140,7 @@ class DashboardPage extends Component {
   loginUser = async () => {
     let response
     const { isUser, authData } = this.state
-    const { exists, ready } = isUser
+    const { exists } = isUser
     let settings = this.state.settings
     let query
     if (!exists) {
@@ -246,11 +248,31 @@ class DashboardPage extends Component {
     return formValid
   }
 
+  LoadingDashboard = () => {
+    return (
+      <Layout>
+        <div className="container">
+          <div className="row">
+            <div className="col-sm" />
+            <div className="col-sm">
+              <h3 className="text-center">Loading Dashboard...</h3>
+              <p className="text-center">
+                Please wait: Initializing Application...
+              </p>
+              <ProgressBar />
+            </div>
+            <div className="col-sm" />
+          </div>
+        </div>
+      </Layout>
+    )
+  }
+
   DashboardLayout = () => {
     const { adAccounts, settings, formValid } = this.state
     const { apiKey } = this.parseAuthToken()
 
-    return (
+    const Dashboard = (
       <Layout>
         <h1> Dashboard </h1>
 
@@ -309,6 +331,12 @@ class DashboardPage extends Component {
         </Row>
       </Layout>
     )
+
+    const loading = <this.LoadingDashboard />
+
+    return !!this.state.adAccounts && this.state.adAccounts.length > 0
+      ? Dashboard
+      : loading
   }
 
   LoadingFacebookLoginButton = () => {
