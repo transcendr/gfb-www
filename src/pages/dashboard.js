@@ -36,7 +36,11 @@ class DashboardPage extends Component {
   componentWillMount() {
     console.log('##', 'Dashboard Component Mount')
     // Get the app ID to use for FB connect button
-    this.retrieveAppId()
+    if (typeof fetch !== 'undefined') {
+      this.retrieveAppId()
+    } else {
+      console.log('##', 'Defer component to client')
+    }
   }
 
   handleApiError(response, critical, tag) {
